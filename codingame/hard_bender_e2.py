@@ -70,7 +70,7 @@ class Graph:
             res += str(link) + " "
         return res
 
-    def add_edge(self, from_node, to_node, weight):
+    def add_edge(self, from_node, to_node, weight=1):
         if to_node not in self.edges[from_node]:
             self.edges[from_node].append(to_node)
             self.weights[(from_node, to_node)] = weight
@@ -137,41 +137,62 @@ class Graph:
                         shortest = newpath
         return shortest
 
-    def dijsktra(self, initial, end):
-        # whose value is a tuple of (previous node, weight)
-        shortest_paths = {initial: (None, 0)}
-        current_node = initial
-        visited = set()
+    def longest_path_dag(self, initial, end):
+        # https://www.geeksforgeeks.org/find-longest-path-directed-acyclic-graph/
+        # 1) Initialize dist[] = {NINF, NINF, ….} and dist[s] = 0
+        #    where s is the source vertex. Here NINF means negative infinite.
+        # 2) Create a toplogical order of all vertices.
+        # 3) Do following for every vertex u in topological order.
+        # ………..Do following for every adjacent vertex v of u
+        # ………………if (dist[v] < dist[u] + weight(u, v))
+        # ………………………dist[v] = dist[u] + weight(u, v)
 
-        while current_node != end:
-            visited.add(current_node)
-            destinations = self.edges[current_node]
-            weight_to_current_node = shortest_paths[current_node][1]
+        # step 1
+        dist = {key: -1*math.inf for key in self.get_nodes()}
+        dist[initial] = 0
 
-            for next_node in destinations:
-                weight = self.weights[(current_node, next_node)] + weight_to_current_node
-                if next_node not in shortest_paths:
-                    shortest_paths[next_node] = (current_node, weight)
-                else:
-                    current_shortest_weight = shortest_paths[next_node][1]
-                    if current_shortest_weight > weight:
-                        shortest_paths[next_node] = (current_node, weight)
+        # step 2
+        topological_sorted_notes = self.topological_sort()
 
-            next_destinations = {node: shortest_paths[node] for node in shortest_paths if node not in visited}
-            if not next_destinations:
-                return "Route Not Possible"
-            # next node is the destination with the lowest weight
-            current_node = min(next_destinations, key=lambda k: next_destinations[k][1])
+        # step 3
+        for u in topological_sorted_notes:
+            adj_nodes = self.__graph_dict[u]
+            for v in adj_nodes:
+                weight = self.get_weight(u, v)
+                if dist[v] < dist[u] + weight:
+                    dist[v] = dist[u] + weight
 
-        # Work back through destinations in shortest path
-        path = []
-        while current_node is not None:
-            path.append(current_node)
-            next_node = shortest_paths[current_node][0]
-            current_node = next_node
-        # Reverse path
-        path = path[::-1]
-        return path
+            # already found the needed path, stop
+            if u == end:
+                break
+        return dist[end]
+
+    # A recursive function used by topologicalSort
+    def topological_sort_util(self, v, visited, stack):
+        # Mark the current node as visited.
+        visited[v] = True
+        # Recur for all the vertices adjacent to this vertex
+        for adj_node in self.__graph_dict[v]:
+            if not visited[adj_node]:
+                self.topological_sort_util(adj_node, visited, stack)
+                # Push current vertex to stack which stores result
+        stack.insert(0, v)
+
+    # The function to do Topological Sort. It uses recursive
+    # topologicalSortUtil()
+    def topological_sort(self):
+        # Mark all the vertices as not visited
+        nodes = self.get_nodes()
+        visited = {key: False for key in nodes}
+        stack =[]
+
+        # Call the recursive helper function to store Topological
+        # Sort starting from all vertices one by one
+        for node, v in visited.items():
+            if not v:
+                self.topological_sort_util(node, visited, stack)
+                # Print contents of the stack
+        return stack
 
     def get_total_path_cost(self, path):
         total_cost = 0
@@ -200,9 +221,19 @@ for i in range(total_rooms):
     graph.add_edge(room, n1, int(money))
     graph.add_edge(room, n2, int(money))
 
+# g = Graph()
+# # # add empty nodes
+# for i in range(6):
+#     g.add_node(i)
+#
+# g.add_edge(5, 2)
+# g.add_edge(5, 0)
+# g.add_edge(4, 0)
+# g.add_edge(4, 1)
+# g.add_edge(2, 3)
+# g.add_edge(3, 1)
+
 print_debug(graph.edges)
 print_debug(graph.weights)
 
-shortest_paths = graph.dijsktra('0', 'E')
-print_debug('shortest_paths:{}'.format(shortest_paths))
-print(graph.get_total_path_cost(shortest_paths))
+print(graph.longest_path_dag('0', 'E'))
