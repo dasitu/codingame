@@ -1,3 +1,4 @@
+// https://www.codingame.com/ide/puzzle/pirates-treasure
 package easy;
 
 import java.util.ArrayList;
