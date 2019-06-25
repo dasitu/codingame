@@ -10,48 +10,47 @@ class Triforce {
 
   public static void main(String[] args) {
     Scanner in = new Scanner(System.in);
-    int height = in.nextInt();
+    int singleHeight = in.nextInt();
 
     // n == 1 is the special case, handle it separately.
-    if (height == 1) {
+    if (singleHeight == 1) {
       triforce = new String[][]{{".", "*"}, {"*", null, "*"}};
     } else {
       // for "arithmetic sequence"
       // a_{1} is the first element
       // d is the common difference
       // then nth element value a_{n}=a_{1}+(n-1)d
-      int width = 1 + ((height - 1) * 2);
-      triforce = new String[2 * height][2 * width + 1];
+      int singleWidth = 1 + ((singleHeight - 1) * 2);
+      int maxHeight = 2 * singleHeight;
+      int maxWidth = 2 * singleWidth + 1;
+      triforce = new String[maxHeight][maxWidth];
       triforce[0][0] = ".";
-      // add first triforce
-      int row = 0;
-      int col = width;
-      addOneTriforce(row, col, height);
 
-      // add second triforce, col move height step on the left
-      row = height;
-      col -= height;
-      addOneTriforce(row, col, height);
+      // draw three triangle at the same time
+      // since they are the same, just the relevant position is different
+      for (int currentRow = 1; currentRow <= singleHeight; currentRow++) {
+        int currentWidth = 1 + ((currentRow - 1) * 2);
+        int startCol = singleWidth + (-1 * (currentRow - 1));
+        int startRow = 0;
+        for (int currentCol = 0; currentCol < currentWidth; currentCol++) {
+          // first triangle
+          int firstRow = currentRow + startRow - 1;
+          int firstCol = currentCol + startCol;
+          //second triangle
+          int secondRow = firstRow + singleHeight;
+          int secondCol = firstCol - singleHeight;
+          //third triangle, row is the same with second row
+          int thirdCol = secondCol + singleWidth + 1;
 
-      // add third triforce, col move width+1 step on the right
-      col += width + 1;
-      addOneTriforce(row, col, height);
+          triforce[firstRow][firstCol] = "*";
+          triforce[secondRow][secondCol] = "*";
+          triforce[secondRow][thirdCol] = "*";
+        }
+      }
     }
 
     // print the triforce
     printTriforce();
-  }
-
-  private static void addOneTriforce(int topMostRow, int topMostCol, int height) {
-    // row, col defined the top most point of the triangle
-    // size is the height of the triangle
-    for (int i = 1; i <= height; i++) {
-      int width = 1 + ((i - 1) * 2);
-      int startCol = -1 * (i - 1) + topMostCol;
-      for (int j = 0; j < width; j++) {
-        triforce[topMostRow + i - 1][j + startCol] = "*";
-      }
-    }
   }
 
   private static void printTriforce() {

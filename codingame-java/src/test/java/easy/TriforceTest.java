@@ -34,7 +34,7 @@ public class TriforceTest {
     String[] output = {
             ".*",
             "* *"};
-    testWithInputOutput(input, output, testClassName);
+    testWithInputOutput(input, output);
   }
 
   @Test
@@ -47,7 +47,7 @@ public class TriforceTest {
             "  *     *",
             " ***   ***",
             "***** *****"};
-    testWithInputOutput(input, output, testClassName);
+    testWithInputOutput(input, output);
   }
 
   @Test
@@ -65,7 +65,7 @@ public class TriforceTest {
             " *******   *******",
             "********* *********"
     };
-    testWithInputOutput(input, output, testClassName);
+    testWithInputOutput(input, output);
   }
 
   @Test
@@ -93,10 +93,10 @@ public class TriforceTest {
             " *****************   *****************",
             "******************* *******************"
     };
-    testWithInputOutput(input, output, testClassName);
+    testWithInputOutput(input, output);
   }
 
-  private void testWithInputOutput(String[] input, String[] output, String className){
+  private void testWithInputOutput(String[] input, String[] output){
 
     StringBuilder lines = new StringBuilder();
     for (int i = 0; i < input.length; i++) {
@@ -108,7 +108,7 @@ public class TriforceTest {
     ByteArrayInputStream in = new ByteArrayInputStream(lines.toString().getBytes());
     System.setIn(in);
     try {
-      Class<?> testObjectClass = Class.forName(className);
+      Class<?> testObjectClass = Class.forName(testClassName);
       Method meth = testObjectClass.getMethod("main", String[].class);
       String[] params = null;
       meth.invoke(null, (Object) params);
