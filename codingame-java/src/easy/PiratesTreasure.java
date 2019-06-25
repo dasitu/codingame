@@ -1,4 +1,5 @@
 // https://www.codingame.com/ide/puzzle/pirates-treasure
+
 package easy;
 
 import java.util.ArrayList;
@@ -28,15 +29,15 @@ class PiratesTreasure {
       }
     }
 
-    for (ArrayList<Integer> pos: zeroPosition) {
+    for (ArrayList<Integer> pos : zeroPosition) {
       int j;
       for (j = 0; j < 8; j++) {
         int toBeCheckedRow = pos.get(0) + INC_ROW[j];
         int toBeCheckedCol = pos.get(1) + INC_COL[j];
 
         // prevent out of index error
-        if (toBeCheckedRow < 0 || toBeCheckedRow > height - 1 ||
-                toBeCheckedCol < 0 || toBeCheckedCol > width - 1) {
+        if (toBeCheckedRow < 0 || toBeCheckedRow > height - 1
+                || toBeCheckedCol < 0 || toBeCheckedCol > width - 1) {
           continue;
         }
         // not treasure, break
