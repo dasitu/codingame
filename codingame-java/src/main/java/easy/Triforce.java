@@ -4,7 +4,7 @@ package easy;
 
 import java.util.Scanner;
 
-class Triforce {
+public class Triforce {
 
   private static String[][] triforce;
 
