@@ -36,26 +36,27 @@ public class RectangularBlockSpinner {
       for (int col = 0; col < size; col++) {
         int startRow = 0;
         int startCol = 0;
+        char value = line.charAt(col * 2);
         switch (rotateCount) {
           case 1: // rotate 45 * 1 = 45
             startRow = size - 1;
             startCol = 0;
-            diamond[startRow + row - col][startCol + row + col] = line.charAt(col * 2);
+            diamond[startRow + row - col][startCol + row + col] = value;
             break;
           case 3: // rotate 45 * 3 = 135
             startRow = longerSize - 1;
             startCol = size - 1;
-            diamond[startRow - row - col][startCol + row - col] = line.charAt(col * 2);
+            diamond[startRow - row - col][startCol + row - col] = value;
             break;
           case 5: // rotate 45 * 5 = 225
             startRow = size - 1;
             startCol = longerSize - 1;
-            diamond[startRow + row - col][startCol - row - col] = line.charAt(col * 2);
+            diamond[startRow + row - col][startCol - row - col] = value;
             break;
           case 7: // rotate 45 * 7 = 315
             startRow = 0;
             startCol = size - 1;
-            diamond[startRow + row + col][startCol - row + col] = line.charAt(col * 2);
+            diamond[startRow + row + col][startCol - row + col] = value;
             break;
           default:
             break;
