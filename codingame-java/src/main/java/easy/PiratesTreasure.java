@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-class PiratesTreasure {
+public class PiratesTreasure {
 
   private static final int[] INC_ROW = {-1, -1, -1, 0, 0, 1, 1, 1};
   private static final int[] INC_COL = {-1, 0, 1, -1, 1, -1, 0, 1};
