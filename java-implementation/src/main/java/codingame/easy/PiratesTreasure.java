@@ -1,6 +1,6 @@
 // https://www.codingame.com/ide/puzzle/pirates-treasure
 
-package easy;
+package codingame.easy;
 
 import java.util.ArrayList;
 import java.util.Arrays;

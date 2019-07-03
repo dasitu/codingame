@@ -1,6 +1,6 @@
 // https://www.codingame.com/ide/puzzle/the-dart-101
 
-package easy;
+package codingame.easy;
 
 import java.util.Scanner;
 import java.util.regex.Pattern;

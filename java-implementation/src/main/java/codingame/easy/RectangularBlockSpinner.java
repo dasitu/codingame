@@ -1,6 +1,6 @@
 // https://www.codingame.com/ide/puzzle/rectangular-block-spinner
 
-package easy;
+package codingame.easy;
 
 import java.util.Scanner;
 

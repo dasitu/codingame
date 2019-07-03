@@ -1,4 +1,4 @@
-package easy;
+package codingame.easy;
 
 import org.junit.Test;
 import utils.TestUtils;

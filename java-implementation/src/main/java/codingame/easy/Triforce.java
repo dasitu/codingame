@@ -1,6 +1,6 @@
 //https://www.codingame.com/ide/puzzle/may-the-triforce-be-with-you
 
-package easy;
+package codingame.easy;
 
 import java.util.Scanner;
 
