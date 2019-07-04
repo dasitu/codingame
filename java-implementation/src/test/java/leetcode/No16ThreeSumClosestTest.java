@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class No16ThreeSumClosestTest {
 
-  private final No16ThreeSumClosest no16ThreeSumClosest = new No16ThreeSumClosest();
+  private No16ThreeSumClosest no16ThreeSumClosest = new No16ThreeSumClosest();
 
   @Test
   public void example(){

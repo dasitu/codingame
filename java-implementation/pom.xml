@@ -28,12 +28,14 @@
             <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
+        <!-- used for Junit 4 backwards compatibility -->
         <dependency>
             <groupId>org.junit.vintage</groupId>
             <artifactId>junit-vintage-engine</artifactId>
             <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
+        <!-- used for Junit 4 backwards compatibility -->
     </dependencies>
 
 </project>
