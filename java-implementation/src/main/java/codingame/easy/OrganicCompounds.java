@@ -8,9 +8,8 @@ import java.util.Scanner;
 
 public class OrganicCompounds {
 
-  private static ArrayList<ArrayList<Integer>> organicCompound = new ArrayList<>();
-
   public static void main(String[] args) {
+    ArrayList<ArrayList<Integer>> organicCompound = new ArrayList<>();
     ArrayList<ArrayList<Integer>> compoundPos = new ArrayList<>();
     Scanner in = new Scanner(System.in);
     int n = in.nextInt();
@@ -36,7 +35,7 @@ public class OrganicCompounds {
     System.err.println("compoundPos:" + compoundPos);
 
     for (ArrayList<Integer> pos : compoundPos) {
-      if (!isValid(pos)) {
+      if (!isValid(pos, organicCompound)) {
         System.out.println("INVALID");
         return;
       }
@@ -44,7 +43,7 @@ public class OrganicCompounds {
     System.out.println("VALID");
   }
 
-  private static Boolean isValid(ArrayList<Integer> pos) {
+  private static Boolean isValid(ArrayList<Integer> pos, ArrayList<ArrayList<Integer>> organicCompound) {
 
     System.err.println("validating:" + pos);
     // sum of 4 direction should equal to 4
