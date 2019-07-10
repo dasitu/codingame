@@ -1,9 +1,9 @@
 package codingame.easy;
 
 import org.junit.Test;
-import utils.TestUtils;
+import utils.StdInOutTestUtils;
 
-public class OrganicCompoundsTest extends TestUtils {
+public class OrganicCompoundsStdInOutTest extends StdInOutTestUtils {
 
   @Test
   public void saturatedHydrocarbon(){

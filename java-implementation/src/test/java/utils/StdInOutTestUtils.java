@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
 
 import static org.junit.Assert.assertEquals;
 
-public class TestUtils {
+public class StdInOutTestUtils {
 
   private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
   private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();

@@ -1,9 +1,9 @@
 package codingame.easy;
 
 import org.junit.Test;
-import utils.TestUtils;
+import utils.StdInOutTestUtils;
 
-public class TriforceTest extends TestUtils {
+public class TriforceStdInOutTest extends StdInOutTestUtils {
 
   @Test
   public void test1(){

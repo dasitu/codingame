@@ -1,9 +1,9 @@
 package codingame.easy;
 
 import org.junit.Test;
-import utils.TestUtils;
+import utils.StdInOutTestUtils;
 
-public class TheDart101Test extends TestUtils {
+public class TheDart101StdInOutTest extends StdInOutTestUtils {
 
   @Test
   public void twoPlayers(){

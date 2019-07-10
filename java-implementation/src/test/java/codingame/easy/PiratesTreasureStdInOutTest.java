@@ -1,9 +1,9 @@
 package codingame.easy;
 
 import org.junit.Test;
-import utils.TestUtils;
+import utils.StdInOutTestUtils;
 
-public class PiratesTreasureTest extends TestUtils {
+public class PiratesTreasureStdInOutTest extends StdInOutTestUtils {
   @Test
   public void smallestIsland(){
     String[] input = {

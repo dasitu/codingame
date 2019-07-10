@@ -1,16 +1,11 @@
 package codingame.easy;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import utils.TestUtils;
-
-import java.io.*;
-import java.lang.reflect.Method;
+import utils.StdInOutTestUtils;
 
 import static org.junit.Assert.assertEquals;
 
-public class RectangularBlockSpinnerTest extends TestUtils {
+public class RectangularBlockSpinnerStdInOutTest extends StdInOutTestUtils {
 
   @Test
   public void test1(){
