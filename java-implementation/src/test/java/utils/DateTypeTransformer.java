@@ -16,7 +16,7 @@ public class DateTypeTransformer {
     return twoDList;
   }
 
-  public static ListNode ArrayToListNode(int[] nodeValues) {
+  public static ListNode arrayToListNode(int[] nodeValues) {
     ListNode dummyRoot = new ListNode(0);
     ListNode ptr = dummyRoot;
     for (int item : nodeValues) {
