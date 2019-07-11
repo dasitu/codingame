@@ -3,6 +3,7 @@ package leetcode;
 import org.junit.jupiter.api.Test;
 import utils.DateTypeTransformer;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,9 +18,9 @@ public class No18FourSumTest {
     int[] nums = {1, 0, -1, 0, -2, 2};
     int target = 0;
     Integer[][] answer = {
-            {-1, 0, 0, 1},
             {-2, -1, 1, 2},
-            {-2, 0, 0, 2}
+            {-2, 0, 0, 2},
+            {-1, 0, 0, 1},
     };
     List<List<Integer>> expect = DateTypeTransformer.twoDArrayToTwoDList(answer);
     List<List<Integer>> output = testObject.fourSum(nums, target);
