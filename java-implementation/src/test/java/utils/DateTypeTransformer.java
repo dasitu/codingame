@@ -27,6 +27,9 @@ public class DateTypeTransformer {
   }
 
   public static List<Integer> listNodeToList(ListNode listNode) {
+    if (listNode == null){
+      return null;
+    }
     List<Integer> listValue = new ArrayList<>();
     listValue.add(listNode.val);
     while (listNode.next != null) {

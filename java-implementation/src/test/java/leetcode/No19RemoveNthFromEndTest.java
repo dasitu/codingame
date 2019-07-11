@@ -20,4 +20,17 @@ public class No19RemoveNthFromEndTest {
 
     assertEquals(listNodeToList(answer), listNodeToList(testObject.removeNthFromEnd(input, nthNode)));
   }
+
+  @Test
+  public void failed() {
+    int[] inputValues = {1};
+    int nthNode = 1;
+    int[] answerValues = {};
+    ListNode input = arrayToListNode(inputValues);
+    ListNode answer = arrayToListNode(answerValues);
+
+    assertEquals(listNodeToList(answer), listNodeToList(testObject.removeNthFromEnd(input, nthNode)));
+  }
+
+
 }
