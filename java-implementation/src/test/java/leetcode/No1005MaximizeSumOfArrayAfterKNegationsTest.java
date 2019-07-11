@@ -8,6 +8,7 @@ import static utils.DateTypeTransformer.arrayToListNode;
 import static utils.DateTypeTransformer.listNodeToList;
 
 public class No1005MaximizeSumOfArrayAfterKNegationsTest {
+
   private No1005MaximizeSumOfArrayAfterKNegations testObject = new No1005MaximizeSumOfArrayAfterKNegations();
 
   @Test

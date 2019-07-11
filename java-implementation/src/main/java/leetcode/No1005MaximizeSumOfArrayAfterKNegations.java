@@ -6,10 +6,10 @@ import java.util.List;
 
 
 public class No1005MaximizeSumOfArrayAfterKNegations {
+
   public int largestSumAfterKNegations(int[] A, int K) {
     int rtSum = 0;
     Arrays.sort(A);
-
     List<Integer> positives = new ArrayList<>();
     List<Integer> negatives = new ArrayList<>();
 
@@ -32,7 +32,6 @@ public class No1005MaximizeSumOfArrayAfterKNegations {
       posSum += A[i];
     }
 
-
     if (K <= negatives.size()) {
       for (int i = 0; i < K; i++) {
         rtSum += negatives.get(i) * -1;
@@ -42,14 +41,11 @@ public class No1005MaximizeSumOfArrayAfterKNegations {
       }
       rtSum += posSum;
     } else {
-      int leftCount = K - negatives.size();
-      if (leftCount % 2 == 0) {
+      if ((K - negatives.size()) % 2 == 0) {
         rtSum = negSum * -1 + posSum;
       } else {
         int minPos = Integer.MAX_VALUE;
-        ;
         int minNeg = Integer.MAX_VALUE;
-        ;
         if (positives.size() != 0) {
           minPos = positives.get(0);
         }
