@@ -8,7 +8,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Method;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class StdInOutTestUtils {
 
@@ -45,7 +46,7 @@ public class StdInOutTestUtils {
       meth.invoke(null, (Object) params);
     }
     catch (Exception e){
-      System.out.println(e.getCause().toString());
+      fail(e.getCause());
     }
 
 //    StringWriter expectedStringWriter = new StringWriter();

@@ -1,0 +1,32 @@
+.main>table{
+  font-size: 30px;
+  border: 2px solid black;
+  border-collapse: collapse;
+}
+.main td {
+  padding: 2px 15px;
+  text-align: center;
+  border: 1px solid #dddddd;
+}
+.main tr:nth-child(3n) {
+  border-bottom:2px solid black;
+}
+
+.main td:nth-child(3n) {
+ border-right:2px solid black;
+}
+
+.candidate table{
+    font-size: 15px;
+    border-style: none;
+}
+
+.candidate td{
+    padding: 0px;
+    border-style: none;
+}
+
+.candidate td:nth-child(3n){
+    padding: 0px;
+    border-style: none;
+}
