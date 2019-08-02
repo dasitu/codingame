@@ -46,7 +46,7 @@ public class StdInOutTestUtils {
       meth.invoke(null, (Object) params);
     }
     catch (Exception e){
-      fail(e.getCause());
+      fail(e);
     }
 
 //    StringWriter expectedStringWriter = new StringWriter();
