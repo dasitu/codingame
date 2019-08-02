@@ -3,7 +3,7 @@ package codingame.easy;
 import org.junit.Test;
 import utils.StdInOutTestUtils;
 
-public class PiratesTreasureStdInOutTest extends StdInOutTestUtils {
+public class PiratesTreasureTest extends StdInOutTestUtils {
   @Test
   public void smallestIsland(){
     String[] input = {

@@ -5,7 +5,7 @@ import utils.StdInOutTestUtils;
 
 import static org.junit.Assert.assertEquals;
 
-public class RectangularBlockSpinnerStdInOutTest extends StdInOutTestUtils {
+public class RectangularBlockSpinnerTest extends StdInOutTestUtils {
 
   @Test
   public void test1(){

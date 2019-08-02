@@ -3,7 +3,7 @@ package codingame.easy;
 import org.junit.Test;
 import utils.StdInOutTestUtils;
 
-public class OrganicCompoundsStdInOutTest extends StdInOutTestUtils {
+public class OrganicCompoundsTest extends StdInOutTestUtils {
 
   @Test
   public void saturatedHydrocarbon(){

@@ -3,7 +3,7 @@ package codingame.easy;
 import org.junit.Test;
 import utils.StdInOutTestUtils;
 
-public class TheDart101StdInOutTest extends StdInOutTestUtils {
+public class TheDart101Test extends StdInOutTestUtils {
 
   @Test
   public void twoPlayers(){

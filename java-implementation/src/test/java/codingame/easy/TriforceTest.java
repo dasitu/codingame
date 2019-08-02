@@ -3,7 +3,7 @@ package codingame.easy;
 import org.junit.Test;
 import utils.StdInOutTestUtils;
 
-public class TriforceStdInOutTest extends StdInOutTestUtils {
+public class TriforceTest extends StdInOutTestUtils {
 
   @Test
   public void test1(){
