@@ -10,18 +10,9 @@ public class RectangularBlockSpinner {
     Scanner in = new Scanner(System.in);
     int size = in.nextInt();
     int angle = in.nextInt();
-
     int longerSize = 2 * size - 1;
-
     // final output diamond shape
     char[][] diamond = new char[longerSize][longerSize];
-    // inital the diamond with blank
-//    for (int lineIndex = 0; lineIndex < diamond.length; lineIndex++) {
-//      char[] allBlank = String.join("",
-//              Collections.nCopies(diamond[0].length, " "))
-//              .toCharArray();
-//      diamond[lineIndex] = allBlank;
-//    }
     // actual rotate count since every 360 degree is the same
     int rotateCount = (angle / 45) % 8;
 

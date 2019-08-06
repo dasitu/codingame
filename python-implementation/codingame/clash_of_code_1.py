@@ -1,0 +1,1 @@
+print("true" if bin(int(input()))[2:].count("1") % 2 else "false")
