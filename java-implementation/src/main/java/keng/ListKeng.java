@@ -83,5 +83,13 @@ public class ListKeng {
       listIterator.remove();
       System.out.println(mutableList);
     }
+
+    // #2 keng
+    int a = 12345;
+    int b = 789012;
+    long c = 0;
+    c = a * b; // result 1150418548 is incorrect as result is overflow int range
+    c = (long) a * b; // result 9,740,353,140‬ is correct
+    System.out.println(c);
   }
 }
