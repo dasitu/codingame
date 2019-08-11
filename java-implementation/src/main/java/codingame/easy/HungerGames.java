@@ -7,7 +7,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class HungerGames {
 
@@ -36,7 +38,7 @@ public class HungerGames {
     for (int i = 0; i < turns; i++) {
       String info = in.nextLine();
       String[] infos = info.split("killed");
-      String killer = infos[0].trim();
+      String killer = infos[0].replace(" ","");
       String killed = infos[1].replace(" ","");
 
       if (killed.contains(",")) {
@@ -55,8 +57,9 @@ public class HungerGames {
       }
     }
 
-    for(int i = 0; i < board.size(); i++) {
-      String k = board.keySet().toArray()[i].toString();
+    SortedSet<String> keys = new TreeSet<>(board.keySet());
+    int i = 0;
+    for (String k : keys) {
       System.out.println("Name: " + k);
       String killedNames = "None";
       if (board.get(k).get(0).size() != 0){
@@ -67,6 +70,7 @@ public class HungerGames {
       if (i < board.size() - 1){
         System.out.println("");
       }
+      i++;
     }
   }
 }
