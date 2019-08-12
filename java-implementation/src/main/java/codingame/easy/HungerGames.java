@@ -4,6 +4,7 @@ package codingame.easy;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -62,6 +63,7 @@ public class HungerGames {
     for (String k : keys) {
       System.out.println("Name: " + k);
       String killedNames = "None";
+      Collections.sort(board.get(k).get(0));
       if (board.get(k).get(0).size() != 0){
         killedNames = String.join(", ", board.get(k).get(0));
       }
