@@ -58,8 +58,9 @@ public class SudokuSolver {
   }
 
   public List<List<Integer>> resolveSudoku() throws InterruptedException {
-    resolveSudokuByRules();
+    //resolveSudokuByRules();
     resolveSudokuByRecursion(0, 0, sudokuBoard);
+    printBoardAndCandidatesHtmlFile("java-implementation/target/classes/answer.html", sudokuBoard);
     return sudokuBoard;
   }
 
@@ -121,7 +122,7 @@ public class SudokuSolver {
   }
 
   private Boolean resolveSudokuByRecursion(int row, int col, List<List<Integer>> puzzle) throws InterruptedException {
-    //printBoardAndCandidatesHtmlFile("target/classes/sudokuTempBoard.html", puzzle);
+    //printBoardAndCandidatesHtmlFile("java-implementation/target/classes/sudokuTempBoard.html", puzzle);
     //TimeUnit.SECONDS.sleep(1);
     List<List<Integer>> mirrorBoard = new ArrayList<>();
     for (List<Integer> rowValues: puzzle){
@@ -324,8 +325,9 @@ public class SudokuSolver {
   }
 
   private void printBoardAndCandidatesHtmlFile() {
-    String htmlFilePath = "target/classes/sudokuBoard.html";
-    printBoardAndCandidatesHtmlFile(htmlFilePath, sudokuBoard);
+    //String cwd = System.getProperty("user.dir");
+    //System.out.println("Current working directory : " + cwd);
+    printBoardAndCandidatesHtmlFile("java-implementation/target/classes/sudokuBoard.html", sudokuBoard);
   }
 
   private void printBoardAndCandidatesHtmlFile(String htmlFilePath, List<List<Integer>> board) {
@@ -366,7 +368,7 @@ public class SudokuSolver {
     return candidateMap.get(candidateIndex);
   }
 
-  private String getCandidateTableHtml(List<Integer> candidates) {
+  private static String getCandidateTableHtml(List<Integer> candidates) {
     StringBuilder candidateTable = new StringBuilder("<div class=\"candidate\"><table>\n");
     int currentNode;
     for (int i = 0; i < 3; i++) {
@@ -377,7 +379,7 @@ public class SudokuSolver {
         if (candidates.contains(currentNode)) {
           printValue = String.valueOf(currentNode);
         }
-        candidateTable.append("<td>" + printValue + "</td>");
+        candidateTable.append("<td>").append(printValue).append("</td>");
       }
       candidateTable.append("</tr>\n");
     }

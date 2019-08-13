@@ -113,4 +113,30 @@ public class SudokuSolverTest extends StdInOutTestUtils {
     testWithInputOutput(input, output);
   }
 
+  @Test
+  public void test() {
+    String[] input = {
+            "045000009",
+            "000051000",
+            "003800104",
+            "027100000",
+            "800000007",
+            "500200010",
+            "004000300",
+            "000007060",
+            "900080500",
+    };
+    String[] output = {
+            "812753649",
+            "943682175",
+            "675491283",
+            "154237896",
+            "369845721",
+            "287169534",
+            "521974368",
+            "438526917",
+            "796318452",
+    };
+    testWithInputOutput(input, output);
+  }
 }
