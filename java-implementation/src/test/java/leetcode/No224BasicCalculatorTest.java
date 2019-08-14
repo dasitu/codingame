@@ -36,6 +36,20 @@ public class No224BasicCalculatorTest {
   }
 
   @Test
+  public void negativeStart(){
+    String input = "-2-(5-6)";
+    int output = -1;
+    assertEquals(output, testObject.calculate(input));
+  }
+
+  @Test
+  public void emptyFinalNegative(){
+    String input = "-5-(1+(5))";
+    int output = -11;
+    assertEquals(output, testObject.calculate(input));
+  }
+
+  @Test
   public void emptyFinal(){
     String input = "(5-(1+(5)))";
     int output = -1;

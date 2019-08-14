@@ -21,18 +21,13 @@ public class No224BasicCalculator {
         String currentStatement = statementStack.pop();
 
         // handling negative number like -1
-        if (innerValue < 0 && !currentStatement.equals("")) {
-          innerValue *= -1;
-          char lastOperator = currentStatement.charAt(currentStatement.length() - 1);
-          currentStatement = currentStatement.substring(0, currentStatement.length() - 1);
-          if (lastOperator == '+') {
-            currentStatement += '-';
-          } else if (lastOperator == '-') {
-            currentStatement += '+';
-          }
+        if (innerValue < 0) {
+          currentStatement += "(" + innerValue + ")";
+        } else {
+          currentStatement += innerValue;
         }
 
-        statementStack.push(currentStatement + innerValue);
+        statementStack.push(currentStatement);
       } else {
         statementStack.push(statementStack.pop() + c);
       }
@@ -46,8 +41,9 @@ public class No224BasicCalculator {
     int answer = 0;
     StringBuilder number = new StringBuilder("0");
     char operator = '+';
+    boolean appendSymbol = false;
     for (char c : s.toCharArray()) {
-      if (c == '-' || c == '+' || c == '*' || c == '/') {
+      if (!appendSymbol && (c == '-' || c == '+')) {
         int value = Integer.parseInt(number.toString());
         switch (operator) {
           case '+':
@@ -60,7 +56,13 @@ public class No224BasicCalculator {
         }
         number.setLength(0); // clean the cumulative number as it has been added to answer.
         operator = c;
-      } else {
+      } else if (c == '('){
+        appendSymbol = true;
+        number.setLength(0);
+      } else if (c == ')'){
+        appendSymbol = false;
+      }
+      else {
         number.append(c);
       }
     }
