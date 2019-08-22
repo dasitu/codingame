@@ -90,7 +90,6 @@ while True:
     for d in allowed_directions:
         print("checking:{}".format(d), file=sys.stderr)
         candidate_directions.append(d)
-
         # calculate new pos for current direction
         new_row, new_col = get_next_pos(my_pos, d)
 
@@ -100,6 +99,7 @@ while True:
             candidate_directions.remove(d)
             continue
 
+        # skip these point in history, but still keep these in candidate since it is still the available options
         if (new_row, new_col) not in my_foot_print:
             distance_to_new_pos = get_distance(closest_player, (new_row, new_col))
             if distance_to_new_pos > longest_distance:
