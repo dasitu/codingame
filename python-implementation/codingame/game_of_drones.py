@@ -54,20 +54,17 @@ def get_distance(x1, y1, x2, y2):
 
 def find_nearest_zone(all_zones, x, y):
     empty_x, empty_y, empty_shortest = 0, 0, 4000
-    my_x, my_y, my_shortest = 0, 0, 4000
+    # my_x, my_y, my_shortest = 0, 0, 4000
     other_x, other_y, other_shortest = 0, 0, 4000
 
     for zone in all_zones:
         dis = get_distance(zone.x, zone.y, x, y)
-        print("({},{})->({},{}):{}".format(zone.x, zone.y, x, y, dis), file=sys.stderr)
+        print("({},{})->({},{}):{}".format(zone.x,
+                                           zone.y, x, y, dis), file=sys.stderr)
         if zone.owner_id == -1:
             if dis < empty_shortest:
                 empty_x, empty_y = zone.x, zone.y
                 empty_shortest = dis
-        elif zone.owner_id == my_id:
-            if dis < my_shortest:
-                my_x, my_y = zone.x, zone.y
-                my_shortest = dis
         else:
             if dis < other_shortest:
                 other_x, other_y = zone.x, zone.y
@@ -84,7 +81,8 @@ def find_nearest_zone(all_zones, x, y):
 # my_id: ID of your player (0, 1, 2, or 3)
 # drone_count: number of drones in each team (3 to 11)
 # zone_count: number of all_zones on the map (4 to 8)
-player_count, my_id, drone_count, zone_count = [int(i) for i in input().split()]
+player_count, my_id, drone_count, zone_count = [
+    int(i) for i in input().split()]
 
 print("my_id:", my_id, file=sys.stderr)
 all_zones = []
@@ -114,6 +112,7 @@ while True:
         all_players.append(single_player)
 
     for i in range(drone_count):
-        sx, sy = find_nearest_zone(all_zones, all_players[my_id][i][0], all_players[my_id][i][1])
+        sx, sy = find_nearest_zone(
+            all_zones, all_players[my_id][i][0], all_players[my_id][i][1])
         print("output:{},{}".format(sx, sy), file=sys.stderr)
         print("{} {}".format(sx, sy))
