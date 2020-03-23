@@ -16,17 +16,13 @@ func (c coord) String() string {
 }
 
 type zone struct {
-	pos        coord
-	owner      int
-	enemyCount int
-	scanRange  int
+	pos   coord
+	owner int
 }
 
 type drone struct {
 	pos    coord
 	target coord
-	free   bool
-	stay   bool
 }
 
 func getDistance(pos1, pos2 coord) int {
@@ -75,6 +71,12 @@ func getNearestZone(allZones []zone, myDrone drone, myID int) coord {
 	return choosePos
 }
 
+func removeByIndex(s []int, i int) {
+	s[i] = s[len(s)-1] // Copy last element to index i.
+	s[len(s)-1] = 0    // Erase last element (write zero value).
+	s = s[:len(s)-1]   // Truncate slice.
+}
+
 // global variable can be used by all functions
 var playerCount, myID, dronesCount, zoneCount int
 var zones []zone
@@ -84,20 +86,21 @@ var drones [][]drone
 var zeroPos coord = coord{0, 0}
 
 func main() {
+	// read basic input
 	fmt.Scan(&playerCount, &myID, &dronesCount, &zoneCount)
 	zones = make([]zone, zoneCount)
-	drones = make([][]drone, playerCount)
-	// at least one drone is needed for each zone
-	avgDCount := int(math.Max(1, float64(dronesCount/zoneCount)))
-	fmt.Fprintln(os.Stderr, "avg count:", avgDCount)
-	// initial all drones space
-	for i := 0; i < playerCount; i++ {
-		drones[i] = make([]drone, dronesCount)
-	}
 	// read zone position input
 	for i := 0; i < zoneCount; i++ {
 		fmt.Scan(&zones[i].pos.x, &zones[i].pos.y)
 	}
+	// initial all drones space
+	drones = make([][]drone, playerCount)
+	for i := 0; i < playerCount; i++ {
+		drones[i] = make([]drone, dronesCount)
+	}
+	// at least one drone is needed for each zone
+	avgDCount := int(math.Max(1, float64(dronesCount/zoneCount)))
+	fmt.Fprintln(os.Stderr, "avg count:", avgDCount)
 
 	// game loop started forever
 	for {
@@ -111,32 +114,28 @@ func main() {
 				fmt.Scan(&drones[i][j].pos.x, &drones[i][j].pos.y)
 			}
 		}
-
 		fmt.Fprintln(os.Stderr, "my drones:", drones[myID])
 		fmt.Fprintln(os.Stderr, "all drones:", drones)
-
 		// assign avg count to every zone
 		// create all my no target drone id slice to void duplicated allocation
-		allMyDroneIds := make([]int, dronesCount)
+		myFreeDroneIds := make([]int, dronesCount)
 		for i := 0; i < dronesCount; i++ {
 			// just assign these no target drone, as this is just starting strategy
-			if drones[myID][i].target == zeroPos {
-				allMyDroneIds[i] = i
+			if drones[myID][i].target == drones[myID][i].pos || drones[myID][i].target == zeroPos {
+				myFreeDroneIds[i] = i
 			}
 		}
 		// start to allocate these no target drones zone by zone
 		for zi, z := range zones {
-			dids := assignAvgDrones(z, avgDCount, allMyDroneIds)
+			dids := assignAvgDrones(z, avgDCount, myFreeDroneIds)
 			fmt.Fprintf(os.Stderr, "dids for zone(%v):%v\n", zi, dids)
 			// update the target of these drones to the center of the zone
 			for _, d := range dids {
 				drones[myID][d].target = z.pos
 				// remove allocated drones for next use
-				for i, v := range allMyDroneIds {
+				for i, v := range myFreeDroneIds {
 					if v == d {
-						allMyDroneIds[i] = allMyDroneIds[len(allMyDroneIds)-1] // Copy last element to index i.
-						allMyDroneIds[len(allMyDroneIds)-1] = 0                // Erase last element (write zero value).
-						allMyDroneIds = allMyDroneIds[:len(allMyDroneIds)-1]   // Truncate slice.
+						removeByIndex(myFreeDroneIds, i)
 						break
 					}
 				}
