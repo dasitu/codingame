@@ -10,7 +10,7 @@ def get_letter():
 
 def create_chromosome(size):
     chromosome = ""
-    for i in range(size):
+    for _ in range(size):
         chromosome += get_letter()
     return chromosome
 
@@ -21,7 +21,7 @@ def get_answer():
 
 
 def is_answer(answer):
-    #print(answer)
+    # print(answer)
     if answer == get_answer():
         return True
     return False
@@ -32,7 +32,7 @@ def get_score(chrom):
     score = 0
     for i in range(len(key)):
         if i < len(chrom) and chrom[i] == key[i]:
-                score += 1
+            score += 1
     return score/len(key)
 
 
@@ -49,18 +49,21 @@ def get_mean_score(population):
 
 def selection(chromosomes_list):
     GRADED_RETAIN_PERCENT = 0.3     # percentage of retained best fitting individuals
-    NONGRADED_RETAIN_PERCENT = 0.2  # percentage of retained remaining individuals (randomly selected)
+    # percentage of retained remaining individuals (randomly selected)
+    NONGRADED_RETAIN_PERCENT = 0.2
     selected_chromesomes = []
     chromo_score = {}
     for chromosome in chromosomes_list:
         chromo_score[chromosome] = score(chromosome)
-    sorted_chromesome_list = [k for k in sorted(chromo_score, key=chromo_score.get, reverse=True)]
+    sorted_chromesome_list = [k for k in sorted(
+        chromo_score, key=chromo_score.get, reverse=True)]
 
     best_fitting_count = int(GRADED_RETAIN_PERCENT * len(chromosomes_list))
     random_count = int(NONGRADED_RETAIN_PERCENT * len(chromosomes_list))
 
     selected_chromesomes += sorted_chromesome_list[:best_fitting_count]
-    selected_chromesomes += random.choices(population=sorted_chromesome_list[best_fitting_count+1:], k=random_count)
+    selected_chromesomes += random.choices(
+        population=sorted_chromesome_list[best_fitting_count+1:], k=random_count)
     return selected_chromesomes
 
 
@@ -75,7 +78,7 @@ def crossover(parent1, parent2):
 
 def mutation(chrom):
     #  * Random gene mutation : a character is replaced
-    index = random.randint(0,len(chrom))
+    index = random.randint(0, len(chrom))
     new_chrom = ""
     for i in range(len(chrom)):
         if i == index:
@@ -88,7 +91,7 @@ def mutation(chrom):
 def create_population(pop_size, chrom_size):
     # use the previously defined create_chromosome(size) function
     population = []
-    for i in range(pop_size):
+    for _ in range(pop_size):
         chrom = create_chromosome(chrom_size)
         population.append(chrom)
     return population
@@ -105,18 +108,18 @@ def generation(population):
     # As long as we need individuals in the new population, fill it with children
     children = []
     while len(children) < len(select):
-        ## crossover
-        rand_nums = random.choices(population=range(0,len(select)),k=2)
+        # crossover
+        rand_nums = random.choices(population=range(0, len(select)), k=2)
         #print("rand_nums:{}".format(rand_nums), file=sys.stderr)
-        parent1 = select[rand_nums[0]] # randomly selected
-        parent2 = select[rand_nums[1]] # randomly selected
+        parent1 = select[rand_nums[0]]  # randomly selected
+        parent2 = select[rand_nums[1]]  # randomly selected
         # use the crossover(parent1, parent2) function created on exercise 2
         #print("patent1:{},parent2:{}".format(parent1,parent2), file=sys.stderr)
 
         child = crossover(parent1, parent2)
         #print("child:{}".format(child), file=sys.stderr)
 
-        ## mutation
+        # mutation
         # use the mutation(child) function created on exercise 2
         child = mutation(child)
         #print("mutated child:{}".format(child), file=sys.stderr)
@@ -139,13 +142,13 @@ def algorithm():
 
     # while a solution has not been found :
     while not answers:
-        ## create the next generation
+        # create the next generation
         population = generation(population)
 
-        ## display the average score of the population (watch it improve)
+        # display the average score of the population (watch it improve)
         print(get_mean_score(population), file=sys.stderr)
 
-        ## check if a solution has been found
+        # check if a solution has been found
         for chrom in population:
             if is_answer(chrom):
                 answers.append(chrom)

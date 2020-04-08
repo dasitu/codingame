@@ -1,4 +1,4 @@
-package main
+package codingame
 
 import (
 	"fmt"
@@ -16,11 +16,15 @@ func (c coord) String() string {
 }
 
 type zone struct {
-	pos   coord
-	owner int
+	id         int
+	pos        coord
+	owner      int
+	enemyCount int
+	myDids     []int
 }
 
 type drone struct {
+	id     int
 	pos    coord
 	target coord
 }
@@ -29,20 +33,42 @@ func getDistance(pos1, pos2 coord) int {
 	return int(math.Sqrt(float64(((pos1.x - pos2.x) * (pos1.x - pos2.x)) + ((pos1.y - pos2.y) * (pos1.y - pos2.y)))))
 }
 
+// check if d is in circle which center is c and range is r
+func isInCircle(c coord, r int, d coord) bool {
+	return ((d.x-c.x)*(d.x-c.x) + (d.y-c.y)*(d.y-c.y)) < r*r
+}
+
+func contains(s []int, e int) bool {
+	for _, a := range s {
+		if a == e {
+			return true
+		}
+	}
+	return false
+}
+
 func assignAvgDrones(z zone, avgCount int, myFreeDrones []int) []int {
 	avgDid := make([]int, 0)
 	shorter := int(math.Min(float64(z.pos.x), float64(z.pos.y)))
 	scanRange := 100
 	for shorter+scanRange < 1800 {
 		for _, did := range myFreeDrones {
-			// within cicle (x-a)*(x-a) + (y-b)*(y-b) < r*r
-			d := drones[myID][did]
-			if (d.pos.x-z.pos.x)*(d.pos.x-z.pos.x)+(d.pos.y-z.pos.y)*(d.pos.y-z.pos.y) < scanRange*scanRange {
+			if isInCircle(z.pos, scanRange, drones[myID][did].pos) {
 				avgDid = append(avgDid, did)
 				avgCount--
 			}
 			if avgCount == 0 {
 				break
+			}
+		}
+
+		// remove allocated drones from myFreeDrones to avoid add agian after increase range
+		for _, aid := range avgDid {
+			for i, v := range myFreeDrones {
+				if v == aid {
+					removeByIndex(myFreeDrones, i)
+					break
+				}
 			}
 		}
 
@@ -55,19 +81,20 @@ func assignAvgDrones(z zone, avgCount int, myFreeDrones []int) []int {
 	return avgDid
 }
 
-func getNearestZone(allZones []zone, myDrone drone, myID int) coord {
+func getNearestZone(d drone) coord {
 	var choosePos coord
+	zid := 0
 	var shortest int = 4000
-	for _, z := range allZones {
-		dis := getDistance(z.pos, myDrone.pos)
+	for _, z := range zones {
+		dis := getDistance(z.pos, d.pos)
 		//fmt.Fprintf(os.Stderr, "%v->%v=%v\n", z.pos, z.pos, dis)
 		if dis < shortest {
 			shortest = dis
-			choosePos.x = z.pos.x
-			choosePos.y = z.pos.y
+			choosePos = z.pos
+			zid = z.id
 		}
 	}
-	fmt.Fprintf(os.Stderr, "neraest pos for drone is %v \n", choosePos)
+	fmt.Fprintf(os.Stderr, "neraest zone for drone(%v) is %v \n", d.id, zid)
 	return choosePos
 }
 
@@ -75,6 +102,42 @@ func removeByIndex(s []int, i int) {
 	s[i] = s[len(s)-1] // Copy last element to index i.
 	s[len(s)-1] = 0    // Erase last element (write zero value).
 	s = s[:len(s)-1]   // Truncate slice.
+}
+
+func updateZoneData() {
+	searchRange := 100
+	for zi, z := range zones {
+		enemyCount := 0
+		myids := make([]int, 0)
+		for pid, drs := range drones {
+			for did, d := range drs {
+				if isInCircle(z.pos, searchRange, d.pos) {
+					if pid == myID {
+						myids = append(myids, did)
+					} else {
+						enemyCount++
+					}
+				}
+			}
+		}
+		zones[zi].enemyCount = enemyCount
+		zones[zi].myDids = myids
+	}
+}
+
+func calculateFreeDrones(avgCount int) []int {
+	freeids := make([]int, 0)
+	for _, z := range zones {
+		myCount := len(z.myDids)
+		// myzone and mycount is bigger than enemy
+		if z.enemyCount < myCount && z.owner == myID {
+			freeCount := myCount - z.enemyCount - avgCount
+			for i := 0; i < freeCount; i++ {
+				freeids = append(freeids)
+			}
+		}
+	}
+	return freeids
 }
 
 // global variable can be used by all functions
@@ -91,6 +154,7 @@ func main() {
 	zones = make([]zone, zoneCount)
 	// read zone position input
 	for i := 0; i < zoneCount; i++ {
+		zones[i].id = i
 		fmt.Scan(&zones[i].pos.x, &zones[i].pos.y)
 	}
 	// initial all drones space
@@ -112,19 +176,33 @@ func main() {
 		for i := 0; i < playerCount; i++ {
 			for j := 0; j < dronesCount; j++ {
 				fmt.Scan(&drones[i][j].pos.x, &drones[i][j].pos.y)
+				drones[i][j].id = j
 			}
 		}
 		fmt.Fprintln(os.Stderr, "my drones:", drones[myID])
 		fmt.Fprintln(os.Stderr, "all drones:", drones)
+
+		updateZoneData()
+		fmt.Fprintln(os.Stderr, "updated all zones:", zones)
 		// assign avg count to every zone
 		// create all my no target drone id slice to void duplicated allocation
 		myFreeDroneIds := make([]int, dronesCount)
 		for i := 0; i < dronesCount; i++ {
 			// just assign these no target drone, as this is just starting strategy
-			if drones[myID][i].target == drones[myID][i].pos || drones[myID][i].target == zeroPos {
+			if drones[myID][i].target == zeroPos {
 				myFreeDroneIds[i] = i
 			}
 		}
+		// findout these free drones
+		fids := calculateFreeDrones(avgDCount)
+		for _, fid := range fids {
+			if contains(myFreeDroneIds, fid) {
+				continue
+			}
+			myFreeDroneIds = append(myFreeDroneIds, fid)
+		}
+
+		fmt.Fprintf(os.Stderr, "free drones:%v\n", myFreeDroneIds)
 		// start to allocate these no target drones zone by zone
 		for zi, z := range zones {
 			dids := assignAvgDrones(z, avgDCount, myFreeDroneIds)
@@ -150,7 +228,7 @@ func main() {
 				continue
 			}
 			// drone does not have any target, just goto nearest zone
-			move := getNearestZone(zones, drones[myID][i], myID)
+			move := getNearestZone(drones[myID][i])
 			drones[myID][i].target = move
 			fmt.Println(move)
 		}
