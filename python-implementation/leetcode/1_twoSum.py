@@ -1,3 +1,6 @@
+import unittest
+
+
 def twoSum(nums, target):
     """
     :type nums: List[int]
@@ -13,4 +16,9 @@ def twoSum(nums, target):
     return [index1, index2]
 
 
-print(twoSum([2, 7, 11, 15], 9))
+class TwoSumTest(unittest.TestCase):
+    def testCase1(self):
+        nums = [2, 7, 11, 15]
+        target = 9
+        expectation = [0, 1]
+        self.assertEqual(twoSum(nums, target), expectation)

@@ -8,7 +8,7 @@ import static utils.DateTypeTransformer.arrayToListNode;
 import static utils.DateTypeTransformer.listNodeToList;
 
 public class No19RemoveNthFromEndTest {
-  private No19RemoveNthFromEnd testObject = new No19RemoveNthFromEnd();
+  private final No19RemoveNthFromEnd testObject = new No19RemoveNthFromEnd();
 
   @Test
   public void example() {

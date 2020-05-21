@@ -12,17 +12,20 @@ Example:
 
 # Definition for singly-linked list.
 class ListNode:
-    def __init__(self, x=0, next=None):
+
+    def __init__(self, x=0, next=None, node_list=None):
         self.val = x
         self.next = next
+        if node_list is not None:
+            self.set_value(node_list)
 
-    def print_self(self):
+    def __str__(self):
         current_node = self
         print_v = ''
         while current_node is not None:
-            print_v += str(current_node.val)+','
+            print_v += str(current_node.val) + ','
             current_node = current_node.next
-        print(print_v)
+        return print_v
 
     def set_value(self, list_v):
         current_node = self
@@ -33,7 +36,14 @@ class ListNode:
             current_node = current_node.next
             count += 1
 
-import math
+    def get_node_len(self):
+        length = 0
+        current_node = self
+        while current_node is not None:
+            length += 1
+            current_node = current_node.next
+        return length
+
 
 def addNumber(list_node, number):
     new_val = list_node.val + number
@@ -48,22 +58,14 @@ def addNumber(list_node, number):
     return list_node
 
 
-def getNodeLen(list_node):
-    length = 0
-    while list_node is not None:
-        length += 1
-        list_node = list_node.next
-    return length
-
-
 def addTwoNumbers(l1, l2):
     """
     :type l1: ListNode
     :type l2: ListNode
     :rtype: ListNode
     """
-    l1_len = getNodeLen(l1)
-    l2_len = getNodeLen(l2)
+    l1_len = l1.get_node_len()
+    l2_len = l2.get_node_len()
 
     base_node = l1 if l1_len > l2_len else l2
     add_node = l2 if l1_len > l2_len else l1
@@ -97,7 +99,7 @@ def addTwoNumbers1(l1, l2):
         elif l2 == None:
             l2 = ListNode(0)
         total = l1.val + l2.val + remain
-        if total >=10 :
+        if total >= 10:
             total = total - 10
             remain = 1
         else:
@@ -112,28 +114,29 @@ def addTwoNumbers1(l1, l2):
 
     return result.next
 
-l1 = [1]
-l2 = [9,9,9]
-l3 = [9]
-l4 = [2,4,3]
 
-l1_node = ListNode()
-l2_node = ListNode()
-l3_node = ListNode()
-l4_node = ListNode()
-
-l1_node.set_value(l1)
-l2_node.set_value(l2)
-l3_node.set_value(l3)
-l4_node.set_value(l4)
-
-#print(getNodeLen(l3_node))
-#n = addNumber(l3_node,1)
-#n.print_self()
-#print(getNodeLen(l3_node))
-#l1_node.print_self()
-#l2_node.print_self()
+import unittest
 
 
-m = addTwoNumbers(l1_node, l2_node)
-m.print_self()
+class TestCases(unittest.TestCase):
+
+    def listNodeEqual(self, node1, node2, msg='Node List are not equal'):
+        if str(node1) == str(node2):
+            return
+        msg = str(node1) + " is not equal to " + str(node2)
+        raise self.failureException(msg)
+
+    def setUp(self):
+        self.addTypeEqualityFunc(ListNode, self.listNodeEqual)
+
+    def testCase1(self):
+        l1_node = ListNode(node_list=[2, 4, 3])
+        l2_node = ListNode(node_list=[5, 6, 4])
+        expectation = ListNode(node_list=[7, 0, 8])
+        self.assertEqual(addTwoNumbers(l1_node, l2_node), expectation)
+
+    def testCase2(self):
+        l1_node = ListNode(node_list=[1])
+        l2_node = ListNode(node_list=[9, 9, 9])
+        expectation = ListNode(node_list=[0, 0, 0, 1])
+        self.assertEqual(addTwoNumbers(l1_node, l2_node), expectation)
