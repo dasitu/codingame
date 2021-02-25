@@ -15,6 +15,8 @@ public class No227BasicCalculatorIi {
     String answer = "";
     statementStack.push(answer);
     String cleanStatement = s.replace(" ", "");
+    cleanStatement = cleanStatement.replace("+0", "");
+    cleanStatement = cleanStatement.replace("-0", "");
     for (char c : cleanStatement.toCharArray()) {
       if (c == '(') {
         statementStack.push("");

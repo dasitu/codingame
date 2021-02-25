@@ -4,9 +4,9 @@ import math
 # Bring data on patient samples from the diagnosis machine to the laboratory with enough molecules to produce medicine!
 
 
-project_count = int(raw_input())
-for i in xrange(project_count):
-    a, b, c, d, e = [int(j) for j in raw_input().split()]
+project_count = int(input())
+for i in range(project_count):
+    a, b, c, d, e = [int(j) for j in input().split()]
 
 game_loop = 1
 working_mode = 0
@@ -22,13 +22,13 @@ working_mode = 0
 # 8 done for submiting samples and molecules
 # game loop
 while True:
-    print >> sys.stderr, "game_loop:{}".format(game_loop)
-    
+    print("game_loop:{}".format(game_loop), file=sys.stderr)
+
     targets = []
     storages = []
-    
-    for i in xrange(2):
-        target, eta, score, storage_a, storage_b, storage_c, storage_d, storage_e, expertise_a, expertise_b, expertise_c, expertise_d, expertise_e = raw_input().split()
+
+    for i in range(2):
+        target, eta, score, storage_a, storage_b, storage_c, storage_d, storage_e, expertise_a, expertise_b, expertise_c, expertise_d, expertise_e = input().split()
         storage = {}
         targets.append(target)
         eta = int(eta)
@@ -45,19 +45,18 @@ while True:
         expertise_c = int(expertise_c)
         expertise_d = int(expertise_d)
         expertise_e = int(expertise_e)
-    available_a, available_b, available_c, available_d, available_e = [int(i) for i in raw_input().split()]
-    
+    available_a, available_b, available_c, available_d, available_e = [int(i) for i in input().split()]
 
-    sample_count = int(raw_input())
+    sample_count = int(input())
     samples = {}
     high_value_ids = []
-    
-    for i in xrange(sample_count):
-        sample_id, carried_by, rank, expertise_gain, health, cost_a, cost_b, cost_c, cost_d, cost_e = raw_input().split()
-        
+
+    for i in range(sample_count):
+        sample_id, carried_by, rank, expertise_gain, health, cost_a, cost_b, cost_c, cost_d, cost_e = input().split()
+
         sample = {}
         sample_data = {}
-        
+
         sample_data['carried_by'] = int(carried_by)
         sample_data['rank'] = int(rank)
         sample_data['experties_gain'] = int(expertise_gain)
@@ -70,75 +69,75 @@ while True:
         sample_data['cost']['e'] = int(cost_e)
         samples[sample_id] = sample_data
 
-    print >> sys.stderr, "samples:{}".format(samples)
-    
+    print("samples:{}".format(samples), file=sys.stderr)
+
     # Write an action using print
-    # To debug: print >> sys.stderr, "Debug messages..."    
-    print >> sys.stderr, "target:{}".format(targets[0])
-    print >> sys.stderr, "working mode:{}".format(working_mode)
+    # To debug: print("Debug messages..."    , file=sys.stderr)
+    print("target:{}".format(targets[0]), file=sys.stderr)
+    print("working mode:{}".format(working_mode), file=sys.stderr)
     game_loop += 1
-    
+
     if targets[0] == 'START_POS' or working_mode == 8:
-        print >> sys.stderr, "====1===="
+        print("====1====", file=sys.stderr)
         print("GOTO SAMPLES")
         working_mode = 1
         continue
-    
+
     if targets[0] == 'SAMPLES' and working_mode == 1:
-        print >> sys.stderr, "====2===="
+        print("====2====", file=sys.stderr)
         rank = 2
         print("CONNECT {}".format(rank))
         working_mode = 2
         continue
     
     if targets[0] == 'SAMPLES' or working_mode == 2:
-        print >> sys.stderr, "====3===="
+        print("====3====", file=sys.stderr)
         print("GOTO DIAGNOSIS")
         working_mode = 3
         continue
     
     if targets[0] == 'DIAGNOSIS' and working_mode == 3:
-        print >> sys.stderr, "====4===="
+        print("====4====", file=sys.stderr)
         for current_id in samples.keys():
             working_sample = samples[current_id]
             if working_sample['carried_by'] == 0:
                 break
-        
+
         working_sample_id = current_id
-        print >> sys.stderr, "sample_id:{}, carried_by:{}".format(working_sample_id, working_sample['carried_by'])
-        print "CONNECT {}".format(working_sample_id)
+        print("sample_id:{}, carried_by:{}".format(working_sample_id, working_sample['carried_by']), file=sys.stderr)
+        print("CONNECT {}".format(working_sample_id))
         working_mode = 4
         continue
-    
+
     if working_mode == 4:
-        print >> sys.stderr, "====5===="
-        print "GOTO MOLECULES"
+        print("====5====", file=sys.stderr)
+        print("GOTO MOLECULES")
         working_mode = 5
         continue
         
     if working_mode == 5:
         working_sample = samples[working_sample_id]
-        print >> sys.stderr, "working sample{}".format(working_sample)
+        print("working sample{}".format(working_sample), file=sys.stderr)
         count = 0
-        print >> sys.stderr, "storage:{}".format(storages[0])
-        print >> sys.stderr, "needed:{}".format(working_sample['cost'])
-        for molecule, needed in working_sample['cost'].iteritems():
-            print >> sys.stderr, "getting {}: needed:{}, storage:{}".format(molecule, needed, storages[0][molecule])
+        print("storage:{}".format(storages[0]), file=sys.stderr)
+        print("needed:{}".format(working_sample['cost']), file=sys.stderr)
+        for molecule, needed in working_sample['cost'].items():
+            print("getting {}: needed:{}, storage:{}".format(molecule, needed, storages[0][molecule]), file=sys.stderr)
             if storages[0][molecule] < needed:
-                print >> sys.stderr, "====5===="
-                print "CONNECT {}".format(molecule.upper())
+                print("====5====", file=sys.stderr)
+                print("CONNECT {}".format(molecule.upper()))
                 break
             else:
                 count += 1
-        print >> sys.stderr, "count:{}".format(count)
+        print("count:{}".format(count), file=sys.stderr)
         if count == 5:
-            print "GOTO LABORATORY"
+            print("GOTO LABORATORY")
             working_mode = 7
             continue
-        
+
     if working_mode == 7:
-        print >> sys.stderr, "working sample id:{}".format(working_sample_id)
-        print >> sys.stderr, "====8===="
-        print "CONNECT {}".format(working_sample_id)
+        print("working sample id:{}".format(working_sample_id), file=sys.stderr)
+        print("====8====", file=sys.stderr)
+        print("CONNECT {}".format(working_sample_id))
         working_mode = 8
         continue

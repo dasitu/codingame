@@ -1,6 +1,12 @@
 package leetcode;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Objects;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class No227BasicCalculatorIiTest {
@@ -71,8 +77,10 @@ public class No227BasicCalculatorIiTest {
   }
 
   @Test
-  void veryBigInput(){
-    String input = "(1+(4+5+2)-3)+(6+8)";
+  void veryBigInput() throws IOException {
+    ClassLoader classLoader = getClass().getClassLoader();
+    File file = new File(Objects.requireNonNull(classLoader.getResource("veryBigString.txt")).getFile());
+    String input = FileUtils.readFileToString(file, "UTF-8");
     int output = 23;
     assertEquals(output, testObject.calculate(input));
   }
